@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 // Download the free fonts the films use (Google Fonts, OFL/Apache) to the paths in assets/fonts/README.md.
-// The other CJK fonts (Alibaba PuHuiTi, HarmonyOS Sans SC, Douyin Sans, Alimama ShuHeiTi, Resource Han Rounded,
-// LXGW Marker Gothic, Fusion Pixel) come from their vendors' sites; this script lists them at the end.
+// The CJK vendor fonts and the static cuts come from tools/fetch-cjk-fonts.sh.
 //
 // Usage: node tools/fetch-fonts.mjs [--force]
 
@@ -46,16 +45,6 @@ const FONTS = {
   'demos/10-synthwave/assets/fonts/MrDafoe-Regular.ttf': 'ofl/mrdafoe/MrDafoe-Regular.ttf',
 };
 
-const MANUAL = [
-  'Alibaba PuHuiTi 3.0    https://www.alibabafonts.com',
-  'Alimama ShuHeiTi       https://www.alibabafonts.com',
-  'HarmonyOS Sans SC      https://developer.huawei.com/consumer/cn/design/resource/',
-  'Douyin Sans            https://github.com/bytedance/fonts',
-  'Resource Han Rounded   https://github.com/CyanoHao/Resource-Han-Rounded',
-  'LXGW Marker Gothic     https://github.com/lxgw/LxgwMarkerGothic',
-  'Fusion Pixel 12px      https://github.com/TakWolf/fusion-pixel-font',
-  'Static cuts (03, 07, 08): instance Unbounded 800, Fraunces 900 SOFT and Outfit 600 from the variable fonts with fonttools',
-];
 
 let ok = 0, failed = 0;
 for (const [dst, src] of Object.entries(FONTS)) {
@@ -70,5 +59,4 @@ for (const [dst, src] of Object.entries(FONTS)) {
   ok++;
 }
 console.log(`\n${ok} fonts in place, ${failed} failed.`);
-console.log('Get these by hand if you need the Chinese lettering (see assets/fonts/README.md for the paths):');
-for (const m of MANUAL) console.log('  ' + m);
+console.log('The CJK vendor fonts and the static cuts come from tools/fetch-cjk-fonts.sh (npm run setup:fonts runs both).');

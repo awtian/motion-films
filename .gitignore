@@ -15,3 +15,4 @@ demos/*/out/stills/
 .venv/
 assets/fonts/**/*.ttf
 demos/*/assets/fonts/*.ttf
+demos/*/assets/*.ttf

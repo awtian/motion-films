@@ -2,6 +2,8 @@
 
 The font files are not in the repository (their licences differ, and the Chinese fonts are large). To run these films locally, put the font files below at the given paths. Without them the browser uses system fonts and the lettering will differ from the films.
 
+`npm run setup:fonts` downloads all of them: `tools/fetch-fonts.mjs` (Google Fonts) and `tools/fetch-cjk-fonts.sh` (the CJK vendor fonts and the static cuts).
+
 | Font | Put it at |
 |---|---|
 | Alibaba PuHuiTi | `assets/fonts/cjk/alibabapuhuiti3/AlibabaPuHuiTi-3-105-Heavy.ttf` |
