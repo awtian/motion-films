@@ -1,3 +1,7 @@
+> [!NOTE]
+> **Personal detached fork.** This repository is a copy of [Vincentwei1021/mg-styles-15](https://github.com/Vincentwei1021/mg-styles-15) by [Vincentwei1021](https://github.com/Vincentwei1021), used under the MIT License. All credit for the films, prompts, renderer and audio toolkit goes to the original author.
+> Changes in this fork are listed in [Changes in this fork](#changes-in-this-fork). The original project page is https://vincentwei1021.github.io/mg-styles-15/.
+
 <div align="center">
 
 # 15 Motion Design Styles
@@ -141,6 +145,14 @@ The site is about 575 MB, 420 MB of it video. GitHub Pages allows 1 GB per site 
 - The code, prompts, docs and films made for this project are released under the [MIT License](LICENSE).
 - Third-party files keep their own licences. The instrument samples (VCSL), the HDRI, the paper texture, the photos and the HUD film's map data (Natural Earth) are CC0 or public domain. `site/vendor/highlight.min.js` is BSD-3-Clause ([its licence](site/vendor/highlight.LICENSE)). The glyph outlines in `demos/04-3d-render/assets/mesh/` and `demos/08-morph/glyphs.json` come from fonts under the SIL Open Font License and stay under it.
 - The font files are not in the repository and keep their own licences; [assets/fonts/README.md](assets/fonts/README.md) lists them.
+
+## Changes in this fork
+
+Kept by [awtian](https://github.com/awtian) for personal use. Differences from [the original](https://github.com/Vincentwei1021/mg-styles-15):
+
+- The prompts, `rubric.md`, `template.md` and the font list are translated from Chinese to English. On-screen Chinese copy stays, with an English gloss. The original Chinese text is in the upstream repository.
+- `harness/render.mjs` runs on Windows: it finds Chrome for Testing in `.browsers/` (`npm run setup:chrome`) and uses ANGLE/D3D11 GPU flags.
+- `npm run setup:fonts` (`tools/fetch-fonts.mjs`) downloads the free Google Fonts the films use.
 
 ## About
 
