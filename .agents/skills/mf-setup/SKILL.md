@@ -16,6 +16,8 @@ ls .browsers/chrome/*/*/chrome.exe
 ls assets/fonts/latin | wc -l          # 20 folders when the Latin fonts are in
 ls assets/fonts/cjk | wc -l            # 11 folders when the CJK fonts are in
 .venv/Scripts/python -c "import numpy, scipy, numba, pedalboard, librosa; print('audio-ok')"
+.venv/Scripts/python -c "import edge_tts, azure.cognitiveservices.speech; print('tts-ok')"
+grep -q "^AZURE_SPEECH_KEY=." .env && echo azure-key-set || echo "no Azure key (Edge voice only)"
 command -v blender || ls "/c/Program Files/Blender Foundation"
 ```
 
@@ -27,6 +29,7 @@ command -v blender || ls "/c/Program Files/Blender Foundation"
 | Chrome | `npm run setup:chrome` (Chrome for Testing in `.browsers/`, git-ignored). Do not use Edge or Firefox |
 | Fonts | `npm run setup:fonts`: `tools/fetch-fonts.mjs` (29 Google Fonts) then `bash tools/fetch-cjk-fonts.sh` (the CJK vendor fonts from npm/GitHub, Resource Han Rounded, LXGW, and the static cuts for 03/07/08; needs 7-Zip, gh and the venv). It ends with a check that lists any missing file |
 | Audio venv | `python -m venv .venv` then `.venv/Scripts/python -m pip install --only-binary=:all: numpy scipy soundfile numba pedalboard pyloudnorm librosa matplotlib`. The exact pins in `requirements.txt` include one with no Windows wheel (it tries to compile and fails), so use current wheels. The sound can differ by a hair from the originals; that does not matter for new films |
+| Voice (TTS) | `.venv/Scripts/python -m pip install --only-binary=:all: edge-tts azure-cognitiveservices-speech`. For Azure: copy `.env.example` to `.env` and set `AZURE_SPEECH_KEY` / `AZURE_SPEECH_REGION` (Azure portal → Speech service, Free F0 tier: 0.5 M characters a month). Never print or commit the key. Without a key the free Edge voice is used |
 | Asset tools (only for `06-collage`-style cutouts) | `.venv/Scripts/python -m pip install --only-binary=:all: pillow fonttools scikit-image opencv-python rembg` |
 | Blender (only for the 3D style) | `winget install BlenderFoundation.Blender`, then see `demos/04-3d-render/README.md` |
 

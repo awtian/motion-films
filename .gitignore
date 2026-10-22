@@ -16,3 +16,4 @@ demos/*/out/stills/
 assets/fonts/**/*.ttf
 demos/*/assets/fonts/*.ttf
 demos/*/assets/*.ttf
+.env

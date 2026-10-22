@@ -17,6 +17,7 @@ styles, each a 10-second film that an AI made by writing code. Windows 11, Git B
 
 - New films go in `demos/my-<slug>/`. Do not change the 15 originals in `demos/` unless asked.
 - A film page draws any time t on request (`window.renderAt(t)`, `window.__ready`); every frame is a pure function of t.
+- Narration: `tools/tts/voice.py` (Azure or the free Edge voice, pronunciation lexicon, word timings). Time cues to words (`"@word"`), not seconds. The Azure key lives in `.env` (git-ignored); never print or commit it.
 - Use `.venv/Scripts/python` for `audio.py` and Chrome for Testing in `.browsers/` (not Edge or Firefox).
 - Edit skills in `.agents/skills/`, never in the installed copies, then run `node tools/install-skills.mjs`.
 - Assets: CC0 / public domain / OFL / Apache only, listed in the film's `CREDITS.md`. Made-up brand names.

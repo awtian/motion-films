@@ -87,6 +87,21 @@ print(res['duration'], res['lufs'], res['true_peak'], res.get('warnings'))
 The recipe for each style is in [references/styles.md](references/styles.md). Run it with
 `.venv/Scripts/python demos/my-<slug>/audio.py`, then look at `out/audio_spec.png` and the warnings.
 
+## 3b. Narration (films with a voice)
+
+The shared tool `tools/tts/voice.py` makes `voice/voice.wav` + `voice/words.json` (per-word timings):
+- `voice/narration.txt`: one paragraph per line, inline pause `[pause 400]`.
+- `voice/voice.json`: `{"provider": "auto", "voice": "id-ID-GadisNeural", "rate": "+10%", "lead": 0.25, "gap": 0.4}`.
+  `auto` = Azure when `AZURE_SPEECH_KEY` is in `.env`, else the free Edge voice. Male voice: `id-ID-ArdiNeural`.
+- Pronunciation: `tools/tts/lexicon.id.json` (shared: AI → "Ei Ai", ChatGPT, chatbot, keyboard …) plus
+  `voice/lexicon.json` for the film (numbers, money: `"US$5.000": "lima ribu dolar"`). Captions keep the written text.
+- `.venv/Scripts/python tools/tts/voice.py demos/my-<slug> --dry` shows what will be spoken; drop `--dry` to make it.
+- **Time cues to words, not seconds**: in `cues.json` write `"@kasih"`, `"@pede#2"` (2nd occurrence), `"@terima.e"`
+  (word end), `"@9,9+1.36"` (offset). The page resolves them with `import {resolveCues} from '/tools/tts/cues.mjs'`,
+  `audio.py` with `from cues import load_cues` (`tools/tts/cues.py`). A new voice then re-syncs the whole film.
+- Put the voice in the mix: `m.track('voice', level=-16, group='voice', hp=80).add(mg.as_sound(wav), 0.0)` and keep
+  `music_level` around −27 (see `demos/my-ai-salah-yakin/audio.py`).
+
 ## 4. Look, then move, then finish
 
 Use the `mf-render` skill for the commands.

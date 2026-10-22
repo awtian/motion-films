@@ -1,0 +1,22 @@
+{
+ "_note": "Written form (as in the script and captions) -> how an Indonesian voice should say it. Shared by every film; a film can add or override in <film>/voice/lexicon.json. Keys match whole words (punctuation around them is ignored); multi-word keys are allowed.",
+ "AI": "Ei Ai",
+ "ChatGPT": "Cet Ji Pi Ti",
+ "GPT": "Ji Pi Ti",
+ "OpenAI": "Open Ei Ai",
+ "chatbot": "cetbot",
+ "Chatbot": "Cetbot",
+ "chatbotnya": "cetbotnya",
+ "keyboard": "kibor",
+ "Google": "Gugel",
+ "YouTube": "Yutub",
+ "online": "onlen",
+ "update": "apdet",
+ "HP": "hape",
+ "HP-mu": "hape-mu",
+ "HP-nya": "hape-nya",
+ "New York": "Nyu Yok",
+ "email": "imel",
+ "software": "sofwer",
+ "prompt": "prom"
+}
