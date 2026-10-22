@@ -90,12 +90,16 @@ The recipe for each style is in [references/styles.md](references/styles.md). Ru
 ## 3b. Narration (films with a voice)
 
 The shared tool `tools/tts/voice.py` makes `voice/voice.wav` + `voice/words.json` (per-word timings):
-- `voice/narration.txt`: one paragraph per line, inline pause `[pause 400]`.
+- `voice/narration.txt`: one paragraph per line, inline pause `[pause 400]` or studio's `<break time="500ms"/>`.
+  From an infostudio/studio episode: `--from-script ../infostudio/episodes/<slug>/script.md` imports its `## Narasi`
+  and voice (approved, fact-checked scripts make the best films).
 - `voice/voice.json`: `{"provider": "auto", "voice": "id-ID-GadisNeural", "rate": "+10%", "lead": 0.25, "gap": 0.4}`.
   `auto` = Azure when `AZURE_SPEECH_KEY` is in `.env`, else the free Edge voice. Male voice: `id-ID-ArdiNeural`.
 - Pronunciation: `tools/tts/lexicon.id.json` (shared: AI → "Ei Ai", ChatGPT, chatbot, keyboard …) plus
   `voice/lexicon.json` for the film (numbers, money: `"US$5.000": "lima ribu dolar"`). Captions keep the written text.
 - `.venv/Scripts/python tools/tts/voice.py demos/my-<slug> --dry` shows what will be spoken; drop `--dry` to make it.
+  Auto-fit: if the voice runs past `cues.json` duration minus `lead` and `end_hold` (1.5 s), it re-voices faster up to
+  +20% (`max_rate`); still too long means trim the narration. `TTS_PROVIDER=edge` forces the free voice.
 - **Time cues to words, not seconds**: in `cues.json` write `"@kasih"`, `"@pede#2"` (2nd occurrence), `"@terima.e"`
   (word end), `"@9,9+1.36"` (offset). The page resolves them with `import {resolveCues} from '/tools/tts/cues.mjs'`,
   `audio.py` with `from cues import load_cues` (`tools/tts/cues.py`). A new voice then re-syncs the whole film.
