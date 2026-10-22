@@ -86,15 +86,17 @@ To save effort, you can also point the AI at this repository's `harness/render.m
 | Needs | For | How |
 |---|---|---|
 | Node.js 22.12 or later | The renderer and the films' npm packages | [nodejs.org](https://nodejs.org), then `npm install` |
-| Google Chrome | Capturing frames headlessly | Found in its default macOS location; elsewhere set `MG_CHROME=<path>` |
+| Google Chrome | Capturing frames headlessly | macOS: the installed app. Windows/Linux: `npm run setup:chrome` puts Chrome for Testing in `.browsers/`. Or set `MG_CHROME=<path>` |
 | ffmpeg | Joining picture and sound | `brew install ffmpeg` or `sudo apt install ffmpeg` |
 | Python 3.11 or later | The soundtracks (`audio.py`) and the asset scripts | `pip install -r requirements.txt` |
 | Blender | Only the 3D film | [demos/04-3d-render/README.md](demos/04-3d-render/README.md) |
-| The fonts | Lettering that matches the films | Not in the repository; [assets/fonts/README.md](assets/fonts/README.md) lists them |
+| The fonts | Lettering that matches the films | `npm run setup:fonts` downloads the free Google Fonts; [assets/fonts/README.md](assets/fonts/README.md) lists the rest. Some films fail to load without their fonts |
 
 ```bash
 # from the repository root
 npm install
+npm run setup:chrome                           # Windows/Linux only
+npm run setup:fonts
 pip install -r requirements.txt
 python3 demos/01-flat-vector/audio.py          # soundtrack → demos/01-flat-vector/out/audio.wav
 node harness/render.mjs demos/01-flat-vector   # render every frame → demos/01-flat-vector/out/video.mp4
@@ -110,7 +112,7 @@ python3 -m http.server 8000                    # preview: http://localhost:8000/
 |---|---|
 | `index.html`, `site/` | The showcase page: each style's film, description, prompt and a source browser, in English and Chinese |
 | `videos/` | The 15 films and their cover frames. 8 use the original streams as they are; the other 7 were 37–100 Mb/s, too heavy to stream on the web, and were re-encoded to H.264 under 28 Mb/s |
-| `prompts/` | One complete prompt per style, with instructions (the instructions are in Chinese; the prompts are in English, with Chinese style notes) |
+| `prompts/` | One complete prompt per style, with instructions (translated to English in this copy; the original Chinese is in the upstream repo) |
 | `demos/<name>/` | Each film's source: the picture code (`index.html` and JS), the soundtrack script `audio.py`, the timing sheet `cues.json`, and the scripts that generated the film's own assets |
 | `harness/render.mjs` | The renderer: captures every frame in headless Chrome, then muxes video and audio with ffmpeg |
 | `harness/preview.html` | Scrub through any film in the browser |

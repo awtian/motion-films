@@ -1,26 +1,26 @@
-# 弥散渐变 / 玻璃拟态 Gradient Blur (Aurora) & Glassmorphism
+# Gradient Blur (Aurora) & Glassmorphism
 
-**原片**：Aurora — think in light「思考，自有光」 · 1920×1080 · 30 fps · 10 秒 · AI 评审终评 8.07 / 10
+**Original film**: Aurora — think in light · 1920×1080 · 30 fps · 10 s · final AI jury score 8.07 / 10
 
-**源码**：[demos/12-aurora-glass/](../demos/12-aurora-glass/)
+**Source**: [demos/12-aurora-glass/](../demos/12-aurora-glass/)
 
-## 怎么用
+## How to use
 
-1. 新建一个空文件夹，在里面打开一个能写代码、能执行命令的 AI 助手（例如 Claude Code）。本机需要能跑网页渲染（Node + Chrome）和 ffmpeg。
-2. 把下面「提示词」整段复制进去发送。
-3. 想换成自己的内容：改 `Creative seed` 里的故事、品牌名、文案和配色，或者改 `Output` 里的尺寸（比如竖屏 1080×1920）。不要删 `Signature features` 那一段，它是这种风格被一眼认出来的依据。
-4. 想再提高：成片出来后，另开一个 AI 用 [rubric.md](../rubric.md) 评审，把评审意见贴回给制作的 AI 再改一轮。原片就是这样改了两轮。
+1. Make a new empty folder and open an AI assistant that can write code and run commands in it (for example Claude Code). The machine needs to render web pages (Node + Chrome) and have ffmpeg.
+2. Copy the whole "Prompt" block below and send it.
+3. To use your own content: change the story, brand name, copy and colours in `Creative seed`, or the size in `Output` (for example vertical 1080×1920). Do not delete the `Signature features` section: it is what makes the style recognisable at a glance.
+4. To push it further: once the film is done, open another AI, review it with [rubric.md](../rubric.md), and paste the review back to the AI that made it for another round. The original films went through two such rounds.
 
-## 提示词
+## Prompt
 
 ```text
 You are the director, motion designer, engineer and sound designer of ONE 10-second motion-design film.
 The goal is the most classic, yet most stunning form of this style — award-shortlist / high-end commercial quality. A clean,
 template-looking result is a fail. Benchmarks: Buck, ManvsMachine, Ordinary Folk, Giant Ant, Territory Studio, Apple keynote
-motion, Pentagram motion identities, top Behance/Motionographer features, top 抖音/B站 designer accounts.
+motion, Pentagram motion identities, top Behance/Motionographer features, top Douyin/Bilibili designer accounts.
 
 # Style
-弥散渐变 / 玻璃拟态 Gradient Blur (Aurora) & Glassmorphism
+Gradient Blur (Aurora) & Glassmorphism
 
 # Output (fixed)
 - 1920×1080, 30 fps, exactly 10.000 s (300 frames), H.264 MP4 with stereo AAC audio (48 kHz), mastered to −14 LUFS
@@ -41,13 +41,13 @@ Sound: ambient cinematic pad, soft shimmer, very subtle UI ticks.
 You are the director: you may change the concept, copy, story beats and brand names if you find a stronger idea, but the result must remain the CANONICAL, instantly-recognisable form of this style and must hit its signature features below.
 
 # Signature features and key techniques (the result is judged against these)
-大面积高斯模糊的彩色光斑（aurora/mesh gradient）缓慢漂移作底，磨砂半透明玻璃卡片浮在其上。苹果 iOS 26 Liquid Glass 与各家 AI 产品发布把这一风格推成 2024-2026 科技品牌片的默认视觉，气质是'慢、透、高级'。
-视觉特征 大色斑高斯模糊漂移, 磨砂玻璃卡片, 1px高光描边, 邻近色低对比配色, 缓慢呼吸感节奏
-关键技法 底层 aurora：3~5 个纯色大圆 blur 80~150px，各自沿贝塞尔路径 20~40 秒漂移循环，彼此 blend 出 mesh gradient 感
-玻璃卡片配方：backdrop-filter blur(20~40px) + 白色 5~10% 填充 + 1px 白色 30% 内描边 + 大半径圆角
-配色用邻近色 2~3 色（紫蓝青/橙粉红），撞色会脏；暗底亮斑比亮底更出效果
-全局叠 3~5% 噪点防 banding（与颗粒质感技法交叉）
-缓动接近 linear 或 sine 呼吸曲线，一切都慢——快动作会立刻破坏气质；文字入场也只用 opacity+8px 位移
+Large, heavily Gaussian-blurred colour blobs (aurora/mesh gradient) drift slowly as the background, with frosted translucent glass cards floating on top. Apple's iOS 26 Liquid Glass and the AI product launches of many companies made this the default look of 2024–2026 tech brand films. The feel is "slow, translucent, premium".
+Visual features large drifting Gaussian-blurred colour blobs, frosted glass cards, 1 px highlight stroke, low-contrast analogous palette, slow breathing rhythm
+Key techniques Aurora base: 3–5 large flat-colour circles blurred 80–150 px, each drifting along a bezier path on a 20–40 s loop, blending into a mesh-gradient look
+Glass card recipe: backdrop-filter blur(20–40px) + 5–10% white fill + 1px 30% white inner stroke + large corner radius
+Use 2–3 analogous colours (purple-blue-cyan / orange-pink-red); clashing colours look muddy. Bright blobs on a dark ground work better than on a light ground
+A global 3–5% noise overlay to prevent banding (overlaps with the grain-texture technique)
+Easing close to linear or a sine "breathing" curve; everything is slow. Fast moves break the mood at once; text enters with only opacity + an 8 px move
 
 # How to work
 1. Treatment. Write down one clear idea: a hook in the first 0.5 s (never open on more than 0.3 s of empty or black), an

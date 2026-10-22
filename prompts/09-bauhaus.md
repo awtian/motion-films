@@ -1,26 +1,26 @@
-# 几何构成 / 包豪斯 Geometric / Bauhaus Motion
+# Geometric / Bauhaus Motion
 
-**原片**：KONSTRUKTION · 20 SCHLÄGE「二十拍构成」 · 1920×1080 · 30 fps · 10 秒 · AI 评审终评 7.71 / 10
+**Original film**: KONSTRUKTION · 20 SCHLÄGE ("Twenty-beat construction") · 1920×1080 · 30 fps · 10 s · final AI jury score 7.71 / 10
 
-**源码**：[demos/09-bauhaus/](../demos/09-bauhaus/)
+**Source**: [demos/09-bauhaus/](../demos/09-bauhaus/)
 
-## 怎么用
+## How to use
 
-1. 新建一个空文件夹，在里面打开一个能写代码、能执行命令的 AI 助手（例如 Claude Code）。本机需要能跑网页渲染（Node + Chrome）和 ffmpeg。
-2. 把下面「提示词」整段复制进去发送。
-3. 想换成自己的内容：改 `Creative seed` 里的故事、品牌名、文案和配色，或者改 `Output` 里的尺寸（比如竖屏 1080×1920）。不要删 `Signature features` 那一段，它是这种风格被一眼认出来的依据。
-4. 想再提高：成片出来后，另开一个 AI 用 [rubric.md](../rubric.md) 评审，把评审意见贴回给制作的 AI 再改一轮。原片就是这样改了两轮。
+1. Make a new empty folder and open an AI assistant that can write code and run commands in it (for example Claude Code). The machine needs to render web pages (Node + Chrome) and have ffmpeg.
+2. Copy the whole "Prompt" block below and send it.
+3. To use your own content: change the story, brand name, copy and colours in `Creative seed`, or the size in `Output` (for example vertical 1080×1920). Do not delete the `Signature features` section: it is what makes the style recognisable at a glance.
+4. To push it further: once the film is done, open another AI, review it with [rubric.md](../rubric.md), and paste the review back to the AI that made it for another round. The original films went through two such rounds.
 
-## 提示词
+## Prompt
 
 ```text
 You are the director, motion designer, engineer and sound designer of ONE 10-second motion-design film.
 The goal is the most classic, yet most stunning form of this style — award-shortlist / high-end commercial quality. A clean,
 template-looking result is a fail. Benchmarks: Buck, ManvsMachine, Ordinary Folk, Giant Ant, Territory Studio, Apple keynote
-motion, Pentagram motion identities, top Behance/Motionographer features, top 抖音/B站 designer accounts.
+motion, Pentagram motion identities, top Behance/Motionographer features, top Douyin/Bilibili designer accounts.
 
 # Style
-几何构成 / 包豪斯 Geometric / Bauhaus Motion
+Geometric / Bauhaus Motion
 
 # Output (fixed)
 - 1920×1080, 30 fps, exactly 10.000 s (300 frames), H.264 MP4 with stereo AAC audio (48 kHz), mastered to −14 LUFS
@@ -31,7 +31,7 @@ HTML: SVG/Canvas + GSAP on a strict modular grid, beat grid at 120 BPM
 (You may choose a better route if it clearly raises quality; say why.)
 
 # Creative seed
-「包豪斯动态海报」Bauhaus 1919 kinetic poster — mechanical, rational, musical.
+"Bauhaus kinetic poster" Bauhaus 1919 kinetic poster — mechanical, rational, musical.
 - Cream paper (#F1E9DA), primaries red #E03C31, yellow #F2B705, blue #1E4FA3, black #111; strict modular grid (e.g. 240px modules); every move is an integer number of modules; every landing on a grid line.
 - 120 BPM (0.5 s/beat): each beat a module acts — quarter circles rotate 90° about a corner pivot, semicircles slide one module, triangles flip, squares split; rotation pivots alternate (own centre / corner / frame centre).
 - 0–2s grid lines draw & the first red circle lands; 2–6s the composition assembles into a Kandinsky/Bauhaus poster; 6–8s phase-shifted cascade wave across the grid on the drop; 8–10s freeze into a perfect poster with Swiss typography: "BAUHAUS" set vertically in heavy geometric sans + small caps "FORM · FARBE · FUNKTION".
@@ -41,13 +41,13 @@ Sound: minimal techno/click — each flip = a pitched click/blip, kick on quarte
 You are the director: you may change the concept, copy, story beats and brand names if you find a stronger idea, but the result must remain the CANONICAL, instantly-recognisable form of this style and must hit its signature features below.
 
 # Signature features and key techniques (the result is judged against these)
-圆、三角、矩形在严格网格上做精确的平移、旋转、缩放，三原色+黑白的限定色板，机械理性的秩序美。源自包豪斯与瑞士国际主义平面传统（Adobe 曾与 Bauhaus 档案馆合作 Hidden Treasures 项目），也是动态海报（kinetic poster）的主流语言，与音乐节拍天然合拍。
-视觉特征 基础几何形, 红黄蓝黑限定色, 严格网格对齐, 旋转以几何中心为轴, 节拍驱动的模块化运动
-关键技法 一切运动锚定网格：位移距离=网格模数整数倍，落点必在网格线上
-缓动克制：easeInOutQuad 或干脆匀速，禁用 overshoot——机械感是特征不是缺陷
-节拍驱动：每个几何元素在节拍点瞬时出现/翻转，一拍一个动作，类似我们已做的卡点逻辑
-旋转轴心玩法：绕自身中心、绕边缘顶点、绕画面中心三种交替制造韵律
-生成式变体：Processing/p5.js 用三角函数相位差批量驱动几何阵列（国内动态海报圈主流做法）
+Circles, triangles and rectangles translate, rotate and scale precisely on a strict grid, in a limited palette of the three primaries plus black and white: the beauty of mechanical, rational order. It comes from the Bauhaus and the Swiss International Style (Adobe worked with the Bauhaus archive on the Hidden Treasures project). It is also the main language of kinetic posters and fits musical beats naturally.
+Visual features basic geometric shapes, limited red/yellow/blue/black palette, strict grid alignment, rotation around the geometric centre, beat-driven modular motion
+Key techniques All motion anchored to the grid: travel distance = a whole multiple of the grid module, and every move lands on a grid line
+Restrained easing: easeInOutQuad or plain linear, no overshoot. The mechanical feel is a feature, not a flaw
+Beat-driven: each geometric element appears/flips instantly on a beat, one action per beat, like cutting to the beat
+Pivot play: alternate rotating around the shape's own centre, an edge vertex and the frame centre to create rhythm
+Generative variants: Processing/p5.js driving geometric arrays in bulk with phase-shifted trig functions (the common approach in the Chinese kinetic-poster scene)
 
 # How to work
 1. Treatment. Write down one clear idea: a hook in the first 0.5 s (never open on more than 0.3 s of empty or black), an

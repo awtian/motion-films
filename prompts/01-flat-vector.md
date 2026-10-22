@@ -1,26 +1,26 @@
-# 扁平矢量动画 Flat / Vector 2D Motion Graphics
+# Flat / Vector 2D Motion Graphics
 
-**原片**：popwise「One Dot」一个点的一镜到底 · 1920×1080 · 30 fps · 10 秒 · AI 评审终评 7.64 / 10
+**Original film**: popwise "One Dot", one dot in one continuous shot · 1920×1080 · 30 fps · 10 s · final AI jury score 7.64 / 10
 
-**源码**：[demos/01-flat-vector/](../demos/01-flat-vector/)
+**Source**: [demos/01-flat-vector/](../demos/01-flat-vector/)
 
-## 怎么用
+## How to use
 
-1. 新建一个空文件夹，在里面打开一个能写代码、能执行命令的 AI 助手（例如 Claude Code）。本机需要能跑网页渲染（Node + Chrome）和 ffmpeg。
-2. 把下面「提示词」整段复制进去发送。
-3. 想换成自己的内容：改 `Creative seed` 里的故事、品牌名、文案和配色，或者改 `Output` 里的尺寸（比如竖屏 1080×1920）。不要删 `Signature features` 那一段，它是这种风格被一眼认出来的依据。
-4. 想再提高：成片出来后，另开一个 AI 用 [rubric.md](../rubric.md) 评审，把评审意见贴回给制作的 AI 再改一轮。原片就是这样改了两轮。
+1. Make a new empty folder and open an AI assistant that can write code and run commands in it (for example Claude Code). The machine needs to render web pages (Node + Chrome) and have ffmpeg.
+2. Copy the whole "Prompt" block below and send it.
+3. To use your own content: change the story, brand name, copy and colours in `Creative seed`, or the size in `Output` (for example vertical 1080×1920). Do not delete the `Signature features` section: it is what makes the style recognisable at a glance.
+4. To push it further: once the film is done, open another AI, review it with [rubric.md](../rubric.md), and paste the review back to the AI that made it for another round. The original films went through two such rounds.
 
-## 提示词
+## Prompt
 
 ```text
 You are the director, motion designer, engineer and sound designer of ONE 10-second motion-design film.
 The goal is the most classic, yet most stunning form of this style — award-shortlist / high-end commercial quality. A clean,
 template-looking result is a fail. Benchmarks: Buck, ManvsMachine, Ordinary Folk, Giant Ant, Territory Studio, Apple keynote
-motion, Pentagram motion identities, top Behance/Motionographer features, top 抖音/B站 designer accounts.
+motion, Pentagram motion identities, top Behance/Motionographer features, top Douyin/Bilibili designer accounts.
 
 # Style
-扁平矢量动画 Flat / Vector 2D Motion Graphics
+Flat / Vector 2D Motion Graphics
 
 # Output (fixed)
 - 1920×1080, 30 fps, exactly 10.000 s (300 frames), H.264 MP4 with stereo AAC audio (48 kHz), mastered to −14 LUFS
@@ -31,7 +31,7 @@ HTML: SVG + GSAP (CustomEase/CustomBounce/MorphSVG); motion blur mb=4 for fast m
 (You may choose a better route if it clearly raises quality; say why.)
 
 # Creative seed
-「一镜到底的扁平世界」One-continuous-shot brand explainer, the canonical Motion-Ocean/Google-explainer form, pushed to showreel polish.
+"A flat world in one continuous shot" One-continuous-shot brand explainer, the canonical Motion-Ocean/Google-explainer form, pushed to showreel polish.
 - 0.0–1.2s HOOK: empty bold color field; a single saturated circle drops in with the three-phase anticipation → stretch → squash → overshoot → settle. Immediately readable craft.
 - 1.2–3.0s: the circle becomes the sun; a flat city pops up building-by-building with 2–4 frame stagger (each with its own mini overshoot), clouds slide, birds flap.
 - 3.0–5.5s: camera pushes into one window → a geometric character at a desk (limb rig with anchor rotations, head bob, blink) reacts; phone pings.
@@ -43,13 +43,13 @@ Sound: upbeat future-bass/pop ~120 BPM; pop/boing/whoosh on each entry, synced t
 You are the director: you may change the concept, copy, story beats and brand names if you find a stronger idea, but the result must remain the CANONICAL, instantly-recognisable form of this style and must hit its signature features below.
 
 # Signature features and key techniques (the result is judged against these)
-MG 动画最主流的基本盘风格，源自 Google Material/企业解释视频（explainer）传统。纯色几何化的人物与场景、无描边或极简描边、大色块撞色，一切元素都是矢量形状。常见于 SaaS 产品宣传、科普解说、企业年报视频。
-视觉特征 纯色大色块, 几何化角色, 无渐变或极少渐变, 干净留白, 高饱和品牌色板, 元素弹性入退场
-关键技法 AE Shape Layer + 父子级 null 控制层级，人物四肢用锚点旋转做 rig
-弹性缓动是灵魂：overshoot 用 cubic-bezier(0.34,1.56,0.64,1) 或 AE 里 70~85% influence 的贝塞尔手柄；入场'预备-冲出-回弹'三段式
-元素错峰入场（stagger 2~4 帧），同一时刻只让一个主体动
-30fps 居多；位移动画带 10% 左右 squash&stretch 增加弹性
-转场常用色块擦除（shape wipe）或元素飞出带动整场切换
+The most mainstream baseline MG style, from the Google Material / corporate explainer-video tradition. Flat-colour geometric characters and scenes, no outline or a minimal one, big blocks of clashing colour; every element is a vector shape. Common in SaaS product promos, explainers and corporate annual-report videos.
+Visual features big flat colour blocks, geometric characters, no or very few gradients, clean white space, high-saturation brand palette, elastic entrances and exits
+Key techniques AE Shape Layers + parented null control layers; character limbs rigged by rotating around anchor points
+Elastic easing is the soul: overshoot with cubic-bezier(0.34,1.56,0.64,1), or bezier handles at 70–85% influence in AE; entrances in three parts: "anticipate → shoot out → bounce back"
+Stagger element entrances (2–4 frames); only one subject moves at a time
+Mostly 30 fps; moves carry about 10% squash & stretch for extra bounce
+Transitions are usually colour-block shape wipes, or an element flying out and pulling the whole scene with it
 
 # How to work
 1. Treatment. Write down one clear idea: a hook in the first 0.5 s (never open on more than 0.3 s of empty or black), an

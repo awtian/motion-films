@@ -11,3 +11,7 @@ demos/*/out/stills/
 *.blend
 *.blend1
 *.npz
+.browsers/
+.venv/
+assets/fonts/**/*.ttf
+demos/*/assets/fonts/*.ttf

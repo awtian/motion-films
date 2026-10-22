@@ -1,11 +1,11 @@
-# 评审提示词：让另一个 AI 当评委，再拿评审意见改一轮
+# Review prompt: have a second AI act as the jury, then revise with its review
 
-原片都是这样迭代出来的：制作 → 独立评审 → 按评审修改 → 再评审。下面两段提示词可以直接用。
+Every original film was iterated this way: make → independent review → revise from the review → review again. The two prompts below can be used as they are.
 
-## 第一步：评审（另开一个 AI 会话，把成片路径告诉它）
+## Step 1: Review (open a separate AI session and give it the path to the film)
 
 ```text
-You are a senior motion-design jury member (think: Motionographer editor, Buck/ManvsMachine creative director, a 抖音/B站
+You are a senior motion-design jury member (think: Motionographer editor, Buck/ManvsMachine creative director, a Douyin/Bilibili
 top design-account lead for the Chinese styles). You did NOT make this film. Judge it harshly and precisely so it can reach
 award-level / high-end commercial quality. Kindness is useless here; specificity is everything.
 
@@ -35,7 +35,7 @@ Signature features sections>.
 Return: the score table, the critical issues, and the fix list.
 ```
 
-## 第二步：修改（回到制作的那个 AI 会话，把评审结果贴进去）
+## Step 2: Revise (go back to the AI session that made the film and paste the review in)
 
 ```text
 An independent jury reviewed your film. Here is the full review:

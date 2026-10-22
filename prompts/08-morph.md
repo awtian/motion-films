@@ -1,26 +1,26 @@
-# 形变动画 Morphing / Shape Morph
+# Morphing / Shape Morph
 
-**原片**：一形万象 One Shape, Every Story · 1920×1080 · 30 fps · 10 秒 · AI 评审终评 7.64 / 10
+**Original film**: One Shape, Every Story · 1920×1080 · 30 fps · 10 s · final AI jury score 7.64 / 10
 
-**源码**：[demos/08-morph/](../demos/08-morph/)
+**Source**: [demos/08-morph/](../demos/08-morph/)
 
-## 怎么用
+## How to use
 
-1. 新建一个空文件夹，在里面打开一个能写代码、能执行命令的 AI 助手（例如 Claude Code）。本机需要能跑网页渲染（Node + Chrome）和 ffmpeg。
-2. 把下面「提示词」整段复制进去发送。
-3. 想换成自己的内容：改 `Creative seed` 里的故事、品牌名、文案和配色，或者改 `Output` 里的尺寸（比如竖屏 1080×1920）。不要删 `Signature features` 那一段，它是这种风格被一眼认出来的依据。
-4. 想再提高：成片出来后，另开一个 AI 用 [rubric.md](../rubric.md) 评审，把评审意见贴回给制作的 AI 再改一轮。原片就是这样改了两轮。
+1. Make a new empty folder and open an AI assistant that can write code and run commands in it (for example Claude Code). The machine needs to render web pages (Node + Chrome) and have ffmpeg.
+2. Copy the whole "Prompt" block below and send it.
+3. To use your own content: change the story, brand name, copy and colours in `Creative seed`, or the size in `Output` (for example vertical 1080×1920). Do not delete the `Signature features` section: it is what makes the style recognisable at a glance.
+4. To push it further: once the film is done, open another AI, review it with [rubric.md](../rubric.md), and paste the review back to the AI that made it for another round. The original films went through two such rounds.
 
-## 提示词
+## Prompt
 
 ```text
 You are the director, motion designer, engineer and sound designer of ONE 10-second motion-design film.
 The goal is the most classic, yet most stunning form of this style — award-shortlist / high-end commercial quality. A clean,
 template-looking result is a fail. Benchmarks: Buck, ManvsMachine, Ordinary Folk, Giant Ant, Territory Studio, Apple keynote
-motion, Pentagram motion identities, top Behance/Motionographer features, top 抖音/B站 designer accounts.
+motion, Pentagram motion identities, top Behance/Motionographer features, top Douyin/Bilibili designer accounts.
 
 # Style
-形变动画 Morphing / Shape Morph
+Morphing / Shape Morph
 
 # Output (fixed)
 - 1920×1080, 30 fps, exactly 10.000 s (300 frames), H.264 MP4 with stereo AAC audio (48 kHz), mastered to −14 LUFS
@@ -31,7 +31,7 @@ HTML: SVG + flubber or GSAP MorphSVGPlugin (tune shapeIndex), color-field wipes
 (You may choose a better route if it clearly raises quality; say why.)
 
 # Creative seed
-「万物相连」Apple-keynote-grade morph chain: one hero shape continuously becomes 6–8 meaningful icons, on the beat.
+"Everything connects" Apple-keynote-grade morph chain: one hero shape continuously becomes 6–8 meaningful icons, on the beat.
 - Chain example: coffee cup → (circle) → sun → sunset over sea → gull → paper plane → location pin → heart → invented brand logo "morphe" with wordmark.
 - Every A→B goes through a simple intermediate (circle/capsule) with rotation and 10–15% squash&stretch; sub-parts morph in sync (steam → sun rays → waves).
 - Background color fields change with each morph (clean color-block wipes); ease cubic-bezier(0.7,0,0.3,1), 3-frame cushions at start/end; no knotting/tangling ever (check every morph mid-point stills).
@@ -40,13 +40,13 @@ Sound: rhythmic plucky arpeggio; a pitched whoosh per morph landing on the beat.
 You are the director: you may change the concept, copy, story beats and brand names if you find a stronger idea, but the result must remain the CANONICAL, instantly-recognisable form of this style and must hit its signature features below.
 
 # Signature features and key techniques (the result is judged against these)
-一个图形丝滑连续地变成另一个图形：手机变成地图钉、咖啡杯变成落日。是图形叙事（visual storytelling）的核心语法，苹果发布会动效和高端 explainer 里最见功力的部分。
-视觉特征 轮廓连续过渡无跳变, 中介形状桥接, 形变伴随位移旋转, 变形瞬间的挤压拉伸
-关键技法 路径对齐是前提：两形状顶点数一致、首顶点方位对应（AE 里重设 first vertex），否则会打结
-复杂 A→B 不直接变：先收敛为中介简形（圆/胶囊）再展开，'A→圆→B'两段各 8~12 帧
-形变全程叠加 10~15% squash & stretch 与轻微旋转，掩盖插值的机械感
-速度曲线中段最快 cubic-bezier(0.7,0,0.3,1)：起止各留 3 帧缓冲
-Web 端用 flubber/polymorph 库做最优顶点匹配插值，效果远好于朴素 SMIL
+One shape turns smoothly and continuously into another: a phone becomes a map pin, a coffee cup becomes a sunset. It is the core grammar of visual storytelling and the most skill-revealing part of Apple keynote motion and high-end explainers.
+Visual features continuous outline transitions without jumps, intermediate bridging shapes, morphs combined with translation and rotation, squash and stretch at the moment of change
+Key techniques Path alignment comes first: both shapes need the same vertex count and matching first-vertex position (reset the first vertex in AE), or the shape tangles
+Do not morph a complex A straight to B: first collapse to a simple intermediate shape (circle/capsule), then expand; "A → circle → B", 8–12 frames per half
+Layer 10–15% squash & stretch and a slight rotation over the whole morph to hide the mechanical interpolation
+Fastest in the middle of the speed curve, cubic-bezier(0.7,0,0.3,1), with 3 frames of cushion at each end
+On the web, use the flubber/polymorph libraries for optimal vertex-matched interpolation; far better than naive SMIL
 
 # How to work
 1. Treatment. Write down one clear idea: a hook in the first 0.5 s (never open on more than 0.3 s of empty or black), an

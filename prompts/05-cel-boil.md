@@ -1,26 +1,26 @@
-# 逐帧手绘 / 线条沸腾 Cel Animation / Frame-by-Frame & Line Boil
+# Cel Animation / Frame-by-Frame & Line Boil
 
-**原片**：手作 HAND MADE · 1920×1080 · 24 fps · 10 秒 · AI 评审终评 8.07 / 10
+**Original film**: HAND MADE · 1920×1080 · 24 fps · 10 s · final AI jury score 8.07 / 10
 
-**源码**：[demos/05-cel-boil/](../demos/05-cel-boil/)
+**Source**: [demos/05-cel-boil/](../demos/05-cel-boil/)
 
-## 怎么用
+## How to use
 
-1. 新建一个空文件夹，在里面打开一个能写代码、能执行命令的 AI 助手（例如 Claude Code）。本机需要能跑网页渲染（Node + Chrome）和 ffmpeg。
-2. 把下面「提示词」整段复制进去发送。
-3. 想换成自己的内容：改 `Creative seed` 里的故事、品牌名、文案和配色，或者改 `Output` 里的尺寸（比如竖屏 1080×1920）。不要删 `Signature features` 那一段，它是这种风格被一眼认出来的依据。
-4. 想再提高：成片出来后，另开一个 AI 用 [rubric.md](../rubric.md) 评审，把评审意见贴回给制作的 AI 再改一轮。原片就是这样改了两轮。
+1. Make a new empty folder and open an AI assistant that can write code and run commands in it (for example Claude Code). The machine needs to render web pages (Node + Chrome) and have ffmpeg.
+2. Copy the whole "Prompt" block below and send it.
+3. To use your own content: change the story, brand name, copy and colours in `Creative seed`, or the size in `Output` (for example vertical 1080×1920). Do not delete the `Signature features` section: it is what makes the style recognisable at a glance.
+4. To push it further: once the film is done, open another AI, review it with [rubric.md](../rubric.md), and paste the review back to the AI that made it for another round. The original films went through two such rounds.
 
-## 提示词
+## Prompt
 
 ```text
 You are the director, motion designer, engineer and sound designer of ONE 10-second motion-design film.
 The goal is the most classic, yet most stunning form of this style — award-shortlist / high-end commercial quality. A clean,
 template-looking result is a fail. Benchmarks: Buck, ManvsMachine, Ordinary Folk, Giant Ant, Territory Studio, Apple keynote
-motion, Pentagram motion identities, top Behance/Motionographer features, top 抖音/B站 designer accounts.
+motion, Pentagram motion identities, top Behance/Motionographer features, top Douyin/Bilibili designer accounts.
 
 # Style
-逐帧手绘 / 线条沸腾 Cel Animation / Frame-by-Frame & Line Boil
+Cel Animation / Frame-by-Frame & Line Boil
 
 # Output (fixed)
 - 1920×1080, 24 fps, exactly 10.000 s (240 frames), H.264 MP4 with stereo AAC audio (48 kHz), mastered to −14 LUFS
@@ -31,22 +31,22 @@ HTML Canvas2D: custom variable-width brush renderer (centreline + pressure → o
 (You may choose a better route if it clearly raises quality; say why.)
 
 # Creative seed
-「手作魔法」Hand-made frame-by-frame magic, Buck/Giant-Ant hybrid (clean shapes + hand-drawn cel FX), animated on 2s at 24 fps.
+"Hand-made magic" Hand-made frame-by-frame magic, Buck/Giant-Ant hybrid (clean shapes + hand-drawn cel FX), animated on 2s at 24 fps.
 - Warm paper ground; ink linework that BOILS (lines redrawn with slight variation every 2 frames); fills slightly off-register like hand colouring.
-- Story: a matchstick strikes (SMEAR frame, on 1s for the fast action) → a flame spirit character jumps out, anticipation + squash, dances (on 2s) → it bursts into cel FX: smoke puffs curling, sparks, star bursts, speed lines → the FX re-form into hand-lettered title (e.g. "HAND MADE" or 手作) that keeps boiling on a 1s hold (on 3s for the hold).
+- Story: a matchstick strikes (SMEAR frame, on 1s for the fast action) → a flame spirit character jumps out, anticipation + squash, dances (on 2s) → it bursts into cel FX: smoke puffs curling, sparks, star bursts, speed lines → the FX re-form into hand-lettered title (e.g. "HAND MADE" or 手作 "hand-made") that keeps boiling on a 1s hold (on 3s for the hold).
 - Palette 3–4 colours: ink black, tomato red, sunny yellow, cream paper; paper grain multiply 10–15%.
 Sound: playful jazzy pizzicato/xylophone bed + cartoon SFX: strike, fwoosh, pop, poof, sparkle — synced to the frame.
 
 You are the director: you may change the concept, copy, story beats and brand names if you find a stronger idea, but the result must remain the CANONICAL, instantly-recognisable form of this style and must hit its signature features below.
 
 # Signature features and key techniques (the result is judged against these)
-手绘逐帧或在矢量动画上叠加逐帧质感，标志性特征是 line boil——线条每隔几帧轻微抖动，仿佛画面在'呼吸'。Giant Ant、Buck 等工作室大量使用 cel 元素（烟、水花、速度线）点缀主动画，反数字精致感的核心手段。
-视觉特征 线条持续微抖(boil), 一拍二/一拍三节奏, smear拖影帧, 手绘烟火水花点缀, 纸纹底
-关键技法 打帧节奏：24fps 下'一拍二'（实际12fps）为主，快动作切'一拍一'，静止镜头'一拍三'
-line boil 伪造法：AE 用 Turbulent Displace（数量2~5、大小50）+ 每 2 帧随机化 evolution + Posterize Time 12fps；真 boil 则画 3~4 张微差线稿循环
-smear frame：快速位移的中间帧把物体拉长 150%~300% 只保留 1 帧
-cel FX 点缀层：烟/水花/闪电用纯手绘逐帧叠在矢量主体上（Buck 式 hybrid）
-整体叠纸纹（multiply 10~15%）统一手作气质
+Hand-drawn frame-by-frame, or a frame-by-frame texture laid over vector animation. The signature is line boil: the lines jitter slightly every few frames, as if the picture is "breathing". Studios like Giant Ant and Buck use cel elements (smoke, splashes, speed lines) heavily to accent the main animation; it is the core way to counter a too-polished digital look.
+Visual features continuous line jitter (boil), on-2s / on-3s timing, smear frames, hand-drawn smoke/fire/splash accents, paper-texture ground
+Key techniques Frame timing: at 24 fps mostly "on 2s" (effectively 12 fps), switch to "on 1s" for fast action, "on 3s" for still shots
+Faking line boil: in AE, Turbulent Displace (amount 2–5, size 50) + randomise evolution every 2 frames + Posterize Time 12 fps; real boil means drawing 3–4 slightly different line passes and cycling them
+Smear frame: on the in-between of a fast move, stretch the object 150%–300% and keep it for only 1 frame
+Cel FX accent layer: smoke/splashes/lightning drawn frame by frame by hand on top of the vector subject (Buck-style hybrid)
+A paper texture over everything (multiply 10–15%) to unify the hand-made feel
 
 # How to work
 1. Treatment. Write down one clear idea: a hook in the first 0.5 s (never open on more than 0.3 s of empty or black), an

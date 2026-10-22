@@ -27,10 +27,25 @@ import events from 'node:events';
 events.defaultMaxListeners = 100;
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const CHROME = process.env.MG_CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
-// GPU flags: ANGLE/Metal on macOS; on Linux (e.g. the NVIDIA render box) default to ANGLE/Vulkan, override with MG_GPU_ARGS.
+// Chrome: MG_CHROME, else the macOS app, else Chrome for Testing in .browsers/ (npm run setup:chrome).
+function findChrome() {
+  if (process.env.MG_CHROME) return process.env.MG_CHROME;
+  if (process.platform === 'darwin') return '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+  const dir = path.join(ROOT, '.browsers', 'chrome');
+  const exe = process.platform === 'win32' ? 'chrome.exe' : 'chrome';
+  const subdirs = (d) => fs.readdirSync(d, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => e.name);
+  const found = fs.existsSync(dir) && subdirs(dir).sort().reverse()
+    .flatMap((v) => subdirs(path.join(dir, v)).map((sub) => path.join(dir, v, sub, exe)))
+    .find((p) => fs.existsSync(p));
+  if (found) return found;
+  throw new Error('No Chrome found. Run `npm run setup:chrome` or set MG_CHROME=<path to chrome>.');
+}
+const CHROME = findChrome();
+// GPU flags: ANGLE/Metal on macOS, ANGLE/D3D11 on Windows; on Linux (e.g. the NVIDIA render box) default to ANGLE/EGL.
+// Override with MG_GPU_ARGS.
 const GPU_ARGS = process.env.MG_GPU_ARGS ? process.env.MG_GPU_ARGS.split(' ').filter(Boolean)
   : process.platform === 'darwin' ? ['--use-angle=metal']
+  : process.platform === 'win32' ? ['--use-angle=d3d11', '--disable-gpu-watchdog', '--disable-gpu-process-crash-limit']
   : ['--use-gl=angle', '--use-angle=gl-egl', '--no-sandbox', '--disable-gpu-watchdog', '--disable-gpu-process-crash-limit'];   // NVIDIA via EGL (verified: hardware WebGL2, ~38–51 dB PSNR vs the Mac renders)
 
 function parseArgs(argv) {

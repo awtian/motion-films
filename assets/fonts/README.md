@@ -1,8 +1,8 @@
-# 字体
+# Fonts
 
-字体文件没有放进仓库（授权各不相同，中文字体也很大）。要在本地跑这些片子，把下面的字体文件放到对应路径；缺字体时浏览器会用系统字体代替，画面里的字形会和成片不一样。
+The font files are not in the repository (their licences differ, and the Chinese fonts are large). To run these films locally, put the font files below at the given paths. Without them the browser uses system fonts and the lettering will differ from the films.
 
-| 字体 | 放到 |
+| Font | Put it at |
 |---|---|
 | Alibaba PuHuiTi | `assets/fonts/cjk/alibabapuhuiti3/AlibabaPuHuiTi-3-105-Heavy.ttf` |
 | Alibaba PuHuiTi | `assets/fonts/cjk/alibabapuhuiti3/AlibabaPuHuiTi-3-115-Black.ttf` |
@@ -49,9 +49,9 @@
 | VT323 | `assets/fonts/latin/vt323/VT323-Regular.ttf` |
 | ZCOOL KuaiLe | `assets/fonts/cjk/zcoolkuaile/ZCOOLKuaiLe-Regular.ttf` |
 
-个别片子用的是从可变字体切出的静态字重，放在片子自己的目录里：
+A few films use static weights cut from a variable font; they sit in the film's own folder:
 
-| 片子 | 放到 |
+| Film | Put it at |
 |---|---|
 | 03-isometric | `demos/03-isometric/assets/fonts/Unbounded-800-static.ttf` |
 | 07-liquid | `demos/07-liquid/assets/Fraunces-Liquid-72-900-Soft.ttf` |

@@ -3,7 +3,9 @@
   "private": true,
   "description": "15 motion-design films rendered from code: source, prompts, renderer",
   "scripts": {
-    "render": "node harness/render.mjs"
+    "render": "node harness/render.mjs",
+    "setup:chrome": "npx -y @puppeteer/browsers install chrome@stable --path .browsers",
+    "setup:fonts": "node tools/fetch-fonts.mjs"
   },
   "dependencies": {
     "d3": "7.9.0",

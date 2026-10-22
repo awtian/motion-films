@@ -1,26 +1,26 @@
-# 3D 渲染系（C4D/Blender 质感） 3D Render / CGI Motion Design
+# 3D Render / CGI Motion Design (C4D/Blender look)
 
-**原片**：soft.「Soft Landing 柔软着陆」 · 1920×1080 · 24 fps · 10 秒 · AI 评审终评 7.71 / 10
+**Original film**: soft. "Soft Landing" · 1920×1080 · 24 fps · 10 s · final AI jury score 7.71 / 10
 
-**源码**：[demos/04-3d-render/](../demos/04-3d-render/)
+**Source**: [demos/04-3d-render/](../demos/04-3d-render/)
 
-## 怎么用
+## How to use
 
-1. 新建一个空文件夹，在里面打开一个能写代码、能执行命令的 AI 助手（例如 Claude Code）。本机需要能跑网页渲染（Node + Chrome）和 ffmpeg；这种风格建议的路线要用 Blender。
-2. 把下面「提示词」整段复制进去发送。
-3. 想换成自己的内容：改 `Creative seed` 里的故事、品牌名、文案和配色，或者改 `Output` 里的尺寸（比如竖屏 1080×1920）。不要删 `Signature features` 那一段，它是这种风格被一眼认出来的依据。
-4. 想再提高：成片出来后，另开一个 AI 用 [rubric.md](../rubric.md) 评审，把评审意见贴回给制作的 AI 再改一轮。原片就是这样改了两轮。
+1. Make a new empty folder and open an AI assistant that can write code and run commands in it (for example Claude Code). The machine needs to render web pages (Node + Chrome) and have ffmpeg; the suggested route for this style uses Blender.
+2. Copy the whole "Prompt" block below and send it.
+3. To use your own content: change the story, brand name, copy and colours in `Creative seed`, or the size in `Output` (for example vertical 1080×1920). Do not delete the `Signature features` section: it is what makes the style recognisable at a glance.
+4. To push it further: once the film is done, open another AI, review it with [rubric.md](../rubric.md), and paste the review back to the AI that made it for another round. The original films went through two such rounds.
 
-## 提示词
+## Prompt
 
 ```text
 You are the director, motion designer, engineer and sound designer of ONE 10-second motion-design film.
 The goal is the most classic, yet most stunning form of this style — award-shortlist / high-end commercial quality. A clean,
 template-looking result is a fail. Benchmarks: Buck, ManvsMachine, Ordinary Folk, Giant Ant, Territory Studio, Apple keynote
-motion, Pentagram motion identities, top Behance/Motionographer features, top 抖音/B站 designer accounts.
+motion, Pentagram motion identities, top Behance/Motionographer features, top Douyin/Bilibili designer accounts.
 
 # Style
-3D 渲染系（C4D/Blender 质感） 3D Render / CGI Motion Design
+3D Render / CGI Motion Design (C4D/Blender look)
 
 # Output (fixed)
 - 1920×1080, 24 fps, exactly 10.000 s (240 frames), H.264 MP4 with stereo AAC audio (48 kHz), mastered to −14 LUFS
@@ -41,13 +41,13 @@ Sound: ASMR-satisfying soft thuds, squishes, bubbly pops, airy cinematic pad; hi
 You are the director: you may change the concept, copy, story beats and brand names if you find a stronger idea, but the result must remain the CANONICAL, instantly-recognisable form of this style and must hit its signature features below.
 
 # Signature features and key techniques (the result is judged against these)
-Cinema 4D + Redshift/Octane 或 Blender 渲染的实体质感动画：软胶、玻璃、金属、布料，配合克隆阵列和物理模拟。是高端产品片（手机、饮料、球鞋）和品牌 ident 的主流，Maxon 官方 Demo Reel 就是该风格的年度风向标。
-视觉特征 PBR真实材质, 浅景深, 柔和棚拍布光, 克隆器阵列, 软体碰撞, 糖果色软胶质感
-关键技法 MoGraph 核心：Cloner 克隆器 + Random/Plain Effector 做群体波浪式动画
-质感三件套：SSS 次表面散射（软胶感）+ AO + HDRI 三点布光
-运动多用长尾 ease：位移曲线前 20% 完成 80% 路程，收尾极慢，配 motion blur
-24/25fps 电影帧率 + 浅景深（f/1.8 感）区别于 2D 系的 30fps 利落感
-常见结构：产品为轴心，粒子/流体/布料围绕它做物理模拟编排
+Physical-material animation rendered in Cinema 4D + Redshift/Octane or Blender: soft rubber, glass, metal, cloth, with cloner arrays and physics simulation. The mainstream look for high-end product films (phones, drinks, sneakers) and brand idents; the official Maxon demo reel sets the trend for this style each year.
+Visual features PBR realistic materials, shallow depth of field, soft studio lighting, cloner arrays, soft-body collisions, candy-coloured soft-rubber finish
+Key techniques MoGraph core: Cloner + Random/Plain Effector for wave-like group animation
+The material trio: SSS subsurface scattering (soft-rubber feel) + AO + HDRI three-point lighting
+Motion mostly uses long-tail eases: the first 20% of the curve covers 80% of the distance, the ending is very slow, with motion blur
+24/25 fps film frame rate + shallow depth of field (f/1.8 feel), unlike the crisp 30 fps of 2D styles
+Common structure: the product is the pivot, with particles/fluids/cloth choreographed around it by physics simulation
 
 # How to work
 1. Treatment. Write down one clear idea: a hook in the first 0.5 s (never open on more than 0.3 s of empty or black), an
