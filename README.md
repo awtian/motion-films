@@ -153,6 +153,7 @@ Kept by [awtian](https://github.com/awtian) for personal use. Differences from [
 - The prompts, `rubric.md`, `template.md` and the font list are translated from Chinese to English. On-screen Chinese copy stays, with an English gloss. The original Chinese text is in the upstream repository.
 - `harness/render.mjs` runs on Windows: it finds Chrome for Testing in `.browsers/` (`npm run setup:chrome`) and uses ANGLE/D3D11 GPU flags.
 - `npm run setup:fonts` (`tools/fetch-fonts.mjs`) downloads the free Google Fonts the films use.
+- Agent skills `mf-setup`, `mf-film`, `mf-render`, `mf-review` and `mf-style` in `.agents/skills/` (see `AGENTS.md`); `node tools/install-skills.mjs` installs them for Claude Code, Codex and other agents.
 
 ## About
 
