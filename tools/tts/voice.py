@@ -231,32 +231,45 @@ def synth_edge(parts, cfg):
 
 
 def synth_azure(parts, cfg):
+    """One request per part (paragraph or [pause] segment), joined with silence: keeps each request small (free
+    tier: 3000 characters per request, slow HD voices time out on long ones) and lets a failed part be retried alone."""
     import azure.cognitiveservices.speech as sdk
     key, region = os.environ.get('AZURE_SPEECH_KEY'), os.environ.get('AZURE_SPEECH_REGION') or 'southeastasia'
     if not key:
-        sys.exit('Azure needs AZURE_SPEECH_KEY and AZURE_SPEECH_REGION (in .env at the repo root). Or use --provider edge.')
+        sys.exit('Azure needs AZURE_SPEECH_KEY (in .env at the repo root). Or use --provider edge.')
     sc = sdk.SpeechConfig(subscription=key, region=region)
     sc.set_speech_synthesis_output_format(sdk.SpeechSynthesisOutputFormat.Riff48Khz16BitMonoPcm)
-    syn = sdk.SpeechSynthesizer(speech_config=sc, audio_config=None)
-    wb = []
-    def on_word(e):
-        if e.boundary_type == sdk.SpeechSynthesisBoundaryType.Word:
-            wb.append((e.text, e.audio_offset / 1e7, e.audio_offset / 1e7 + e.duration.total_seconds()))
-    syn.synthesis_word_boundary.connect(on_word)
     lang = '-'.join(cfg['voice'].split('-')[:2])
-    body = ''.join(escape(text) + (f'<break time="{int(pause * 1000)}ms"/>' if pause else '') for text, pause in parts)
-    inner = f'<prosody rate="{cfg["rate"]}" pitch="{cfg["pitch"]}">{body}</prosody>'
-    if cfg.get('style'):   # speaking style, for voices that list styles (--list-voices), e.g. MAI-Voice "narrator"
-        inner = f'<mstts:express-as style="{cfg["style"]}">{inner}</mstts:express-as>'
-    ssml = (f'<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" '
-            f'xml:lang="{lang}"><voice name="{cfg["voice"]}">{inner}</voice></speak>')
-    r = syn.speak_ssml_async(ssml).get()
-    if r.reason != sdk.ResultReason.SynthesizingAudioCompleted:
-        d = r.cancellation_details
-        sys.exit(f'Azure synthesis failed: {r.reason} {getattr(d, "reason", "")} {getattr(d, "error_details", "")}')
-    y, sr = sf.read(io.BytesIO(r.audio_data), dtype='float32')
-    assert sr == SR, sr
-    return trim_tail(y), wb
+
+    def one(text):
+        syn = sdk.SpeechSynthesizer(speech_config=sc, audio_config=None)
+        wb = []
+        def on_word(e):
+            if e.boundary_type == sdk.SpeechSynthesisBoundaryType.Word:
+                wb.append((e.text, e.audio_offset / 1e7, e.audio_offset / 1e7 + e.duration.total_seconds()))
+        syn.synthesis_word_boundary.connect(on_word)
+        inner = f'<prosody rate="{cfg["rate"]}" pitch="{cfg["pitch"]}">{escape(text)}</prosody>'
+        if cfg.get('style'):   # speaking style, for voices that list styles (--list-voices), e.g. MAI-Voice "narrator"
+            inner = f'<mstts:express-as style="{cfg["style"]}">{inner}</mstts:express-as>'
+        ssml = (f'<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" '
+                f'xml:lang="{lang}"><voice name="{cfg["voice"]}">{inner}</voice></speak>')
+        r = syn.speak_ssml_async(ssml).get()
+        if r.reason != sdk.ResultReason.SynthesizingAudioCompleted:
+            d = r.cancellation_details
+            msg = f'Azure synthesis failed: {getattr(d, "reason", r.reason)} {getattr(d, "error_details", "")}'
+            if '401' in msg or 'Authentication' in msg: sys.exit(msg + '\n(check AZURE_SPEECH_KEY / AZURE_SPEECH_REGION in .env)')
+            raise RuntimeError(msg)     # timeouts, throttling (429): retried by retry()
+        y, sr = sf.read(io.BytesIO(r.audio_data), dtype='float32')
+        assert sr == SR, sr
+        return trim_tail(y), wb
+
+    out, bounds, t = [], [], 0.0
+    for i, (text, pause) in enumerate(parts):
+        y, wb = retry(f'Azure part {i + 1}/{len(parts)}', 3, lambda: one(text))
+        bounds += [(w, t + s0, t + e0) for w, s0, e0 in wb]
+        out.append(y); t += len(y) / SR
+        if pause: out.append(np.zeros(int(pause * SR), np.float32)); t += pause
+    return np.concatenate(out), bounds
 
 
 def list_voices(locale):

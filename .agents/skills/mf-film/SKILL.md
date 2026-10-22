@@ -95,8 +95,10 @@ The shared tool `tools/tts/voice.py` makes `voice/voice.wav` + `voice/words.json
   and voice (approved, fact-checked scripts make the best films).
 - `voice/voice.json`: `{"provider": "auto", "voice": "id-ID-Larasati:DragonHDLatestNeural", "rate": "+0%", "lead": 0.25, "gap": 0.4}`.
   `auto` = Azure when `AZURE_SPEECH_KEY` is in `.env`, else the free Edge voice (`id-ID-GadisNeural`).
-  **Use the Azure HD voices** (Oct 2026 test, first-choice → Larasati HD; also Gadis HD, Ardi HD for male). They sound
-  natural and pronounce AI, ChatGPT, New York, 9,11, US$5.000 correctly; keep `rate` at `+0%`. The MAI-Voice voices
+  **Use the Azure HD voices.** Oct 2026 test: Gadis HD and Ardi HD (male) at `rate +8%`, `pitch +4%` are the liveliest
+  (about 25% more pitch movement than Larasati HD, which sounds flat). They pronounce AI, ChatGPT, New York, 9,11,
+  US$5.000 correctly. Energy comes from the text: `?!`, `!`, `…` and short sentences; captions keep `!` and `?`.
+  Write "HP kamu", not "HP-mu" (the HD voice reads the hyphen as "em-u"). The MAI-Voice voices
   (Harper, Grant with `"style": "educational"`) sound good but return no word timings, so they cannot drive a film yet.
   `--list-voices id-ID` shows them all.
 - Pacing: the HD voice is quick. Where a visual needs time (a proof, a hero moment), add `[pause 600]` in the narration
