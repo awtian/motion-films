@@ -9,10 +9,12 @@ Providers
 Input, all in <film>/voice/
   narration.txt  one paragraph per line. Pauses: [pause 400] (ms, as written) or studio's <break time="500ms"/>
                  (clamped to 300-1200 ms). Lines starting with # are ignored. Other tags are stripped.
-  voice.json     optional: {"provider", "voice", "rate", "pitch", "lead", "gap", "end_hold", "max_rate", "lexicon"}
+  voice.json     optional: {"provider", "voice", "style", "rate", "pitch", "lead", "gap", "end_hold", "max_rate", "lexicon"}
+                 style = Azure speaking style (only voices that list styles in --list-voices)
                  gap = pause after each paragraph in seconds (number, or a list per paragraph)
                  pitch "+5%" is sent to Edge as Hz (about 1.2 Hz per %), as in studio
-  lexicon.json   optional per-film pronunciations, merged over tools/tts/lexicon.id.json
+  lexicon.json   optional per-film pronunciations, merged over tools/tts/lexicon.id.json ('standard' entries
+                 apply only to classic voices; HD voices already pronounce tech words well)
 
 Pronunciation: the lexicon maps what is written (and shown in captions) to what is spoken, e.g. "AI" -> "Ei Ai".
 The spoken words are aligned back to the written words, so words.json keeps the written text.
@@ -34,7 +36,7 @@ import numpy as np, soundfile as sf
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 SR = 48000
-DEFAULTS = {'provider': 'auto', 'voice': 'id-ID-GadisNeural', 'rate': '+10%', 'pitch': '+0%', 'lead': 0.25, 'gap': 0.4,
+DEFAULTS = {'provider': 'auto', 'voice': 'id-ID-Larasati:DragonHDLatestNeural', 'rate': '+0%', 'pitch': '+0%', 'lead': 0.25, 'gap': 0.4,
             'end_hold': 1.5, 'max_rate': 20}
 PUNCT = '.,?!:;…'
 QUOTES = '"“”\'‘’()[]'
@@ -123,6 +125,18 @@ def import_script(script_md, vdir):
         f.write(f'# imported from {script_md}\n' + '\n'.join(paras) + '\n')
     print(f'imported {len(paras)} paragraphs from {script_md} -> {os.path.join(vdir, "narration.txt")}')
     return meta.get('voice') or None
+
+
+def load_lexicon(cfg, vdir):
+    """tools/tts/lexicon.id.json ('all' + 'standard' for classic voices) < <film>/voice/lexicon.json < voice.json 'lexicon'.
+    HD / MAI voices (names with ':', e.g. id-ID-Larasati:DragonHDLatestNeural) skip 'standard'. null removes an entry."""
+    base = json.load(open(os.path.join(ROOT, 'tools', 'tts', 'lexicon.id.json'), encoding='utf-8'))
+    lex = dict(base.get('all', {}))
+    if ':' not in cfg['voice']: lex.update(base.get('standard', {}))
+    fp = os.path.join(vdir, 'lexicon.json')
+    if os.path.exists(fp): lex.update(json.load(open(fp, encoding='utf-8')))
+    lex.update(cfg.get('lexicon') or {})
+    return {k: v for k, v in lex.items() if v and not k.startswith('_')}
 
 
 def retry(label, attempts, fn):
@@ -231,8 +245,11 @@ def synth_azure(parts, cfg):
     syn.synthesis_word_boundary.connect(on_word)
     lang = '-'.join(cfg['voice'].split('-')[:2])
     body = ''.join(escape(text) + (f'<break time="{int(pause * 1000)}ms"/>' if pause else '') for text, pause in parts)
-    ssml = (f'<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="{lang}">'
-            f'<voice name="{cfg["voice"]}"><prosody rate="{cfg["rate"]}" pitch="{cfg["pitch"]}">{body}</prosody></voice></speak>')
+    inner = f'<prosody rate="{cfg["rate"]}" pitch="{cfg["pitch"]}">{body}</prosody>'
+    if cfg.get('style'):   # speaking style, for voices that list styles (--list-voices), e.g. MAI-Voice "narrator"
+        inner = f'<mstts:express-as style="{cfg["style"]}">{inner}</mstts:express-as>'
+    ssml = (f'<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xmlns:mstts="https://www.w3.org/2001/mstts" '
+            f'xml:lang="{lang}"><voice name="{cfg["voice"]}">{inner}</voice></speak>')
     r = syn.speak_ssml_async(ssml).get()
     if r.reason != sdk.ResultReason.SynthesizingAudioCompleted:
         d = r.cancellation_details
@@ -255,7 +272,7 @@ def list_voices(locale):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('film', nargs='?')
-    ap.add_argument('--provider'); ap.add_argument('--voice'); ap.add_argument('--rate'); ap.add_argument('--pitch')
+    ap.add_argument('--provider'); ap.add_argument('--voice'); ap.add_argument('--style'); ap.add_argument('--rate'); ap.add_argument('--pitch')
     ap.add_argument('--from-script', metavar='SCRIPT_MD', help='import "## Narasi" from a studio/infostudio script.md')
     ap.add_argument('--dry', action='store_true', help='print what would be spoken, do not synthesise')
     ap.add_argument('--list-voices', metavar='LOCALE')
@@ -271,17 +288,14 @@ def main():
         if v and not a.voice: cfg['voice'] = v
     # explicit flag > TTS_PROVIDER > voice.json > Azure when keyed > Edge (studio's ttsProvider order)
     if os.environ.get('TTS_PROVIDER') and not a.provider: cfg['provider'] = os.environ['TTS_PROVIDER']
-    for k in ('provider', 'voice', 'rate', 'pitch'):
+    for k in ('provider', 'voice', 'style', 'rate', 'pitch'):
         if getattr(a, k): cfg[k] = getattr(a, k)
     if cfg['provider'] == 'auto':
         cfg['provider'] = 'azure' if os.environ.get('AZURE_SPEECH_KEY') else 'edge'
         if cfg['provider'] == 'edge':
             print('note: AZURE_SPEECH_KEY not set, using the free Edge voices (fine for testing; Azure for uploads).')
     if cfg['provider'] not in ('azure', 'edge'): sys.exit(f'unknown provider {cfg["provider"]}: use azure, edge or auto')
-    lex = json.load(open(os.path.join(ROOT, 'tools', 'tts', 'lexicon.id.json'), encoding='utf-8'))
-    lex = {k: v for k, v in lex.items() if not k.startswith('_')}
-    if os.path.exists(os.path.join(vdir, 'lexicon.json')): lex.update(json.load(open(os.path.join(vdir, 'lexicon.json'), encoding='utf-8')))
-    lex.update(cfg.get('lexicon') or {})
+    lex = load_lexicon(cfg, vdir)
 
     paras = read_narration(os.path.join(vdir, 'narration.txt'))
     gaps = cfg['gap'] if isinstance(cfg['gap'], list) else [cfg['gap']] * len(paras)

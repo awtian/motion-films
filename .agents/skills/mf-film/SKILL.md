@@ -93,10 +93,16 @@ The shared tool `tools/tts/voice.py` makes `voice/voice.wav` + `voice/words.json
 - `voice/narration.txt`: one paragraph per line, inline pause `[pause 400]` or studio's `<break time="500ms"/>`.
   From an infostudio/studio episode: `--from-script ../infostudio/episodes/<slug>/script.md` imports its `## Narasi`
   and voice (approved, fact-checked scripts make the best films).
-- `voice/voice.json`: `{"provider": "auto", "voice": "id-ID-GadisNeural", "rate": "+10%", "lead": 0.25, "gap": 0.4}`.
-  `auto` = Azure when `AZURE_SPEECH_KEY` is in `.env`, else the free Edge voice. Male voice: `id-ID-ArdiNeural`.
-- Pronunciation: `tools/tts/lexicon.id.json` (shared: AI → "Ei Ai", ChatGPT, chatbot, keyboard …) plus
-  `voice/lexicon.json` for the film (numbers, money: `"US$5.000": "lima ribu dolar"`). Captions keep the written text.
+- `voice/voice.json`: `{"provider": "auto", "voice": "id-ID-Larasati:DragonHDLatestNeural", "rate": "+0%", "lead": 0.25, "gap": 0.4}`.
+  `auto` = Azure when `AZURE_SPEECH_KEY` is in `.env`, else the free Edge voice (`id-ID-GadisNeural`).
+  **Use the Azure HD voices** (Oct 2026 test, first-choice → Larasati HD; also Gadis HD, Ardi HD for male). They sound
+  natural and pronounce AI, ChatGPT, New York, 9,11, US$5.000 correctly; keep `rate` at `+0%`. The MAI-Voice voices
+  (Harper, Grant with `"style": "educational"`) sound good but return no word timings, so they cannot drive a film yet.
+  `--list-voices id-ID` shows them all.
+- Pacing: the HD voice is quick. Where a visual needs time (a proof, a hero moment), add `[pause 600]` in the narration
+  rather than rushing the animation; then make `cues.json` `duration` = last word + ~2 s.
+- Pronunciation: `tools/tts/lexicon.id.json` (`standard` respellings like AI → "Ei Ai" apply only to the classic voices;
+  HD voices need none) plus `voice/lexicon.json` per film. Captions always keep the written text.
 - `.venv/Scripts/python tools/tts/voice.py demos/my-<slug> --dry` shows what will be spoken; drop `--dry` to make it.
   Auto-fit: if the voice runs past `cues.json` duration minus `lead` and `end_hold` (1.5 s), it re-voices faster up to
   +20% (`max_rate`); still too long means trim the narration. `TTS_PROVIDER=edge` forces the free voice.
