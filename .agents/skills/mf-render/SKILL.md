@@ -19,7 +19,7 @@ Repo: `C:\Users\me\personal\motion-films`. Run from the repo root. `<dir>` is e.
 | Stronger motion blur | `... --mb 4 --shutter 0.5` (slower; use on the final only) |
 | Scrub in the browser | `python -m http.server 8000`, open `http://localhost:8000/harness/preview.html?demo=<name>` (films under `demos/` only) |
 
-Other flags: `--crf 14`, `--w --h --fps --duration` (override `window.DEMO`), `--workers N`,
+Other flags: `--crf 14`, `--w --h --fps --duration` (override `window.DEMO`), `--workers N` (max 2 here, 1 at full res),
 `--audio path.wav`, `--query k=v`. A 10 s 1080p 2D film renders in ~20 s; WebGL takes longer.
 
 **Always open the stills you render** (Read the PNGs) before you say a frame is fine.
@@ -51,4 +51,5 @@ I ≈ −14 LUFS (±1), true peak ≤ −1 dBTP, no black spans you did not plan
 | WebGL black or slow | GPU flags. Windows default is `--use-angle=d3d11`. Try `MG_GPU_ARGS="--use-angle=swiftshader"` (software) to tell a GPU problem from a code problem |
 | Video has no sound | No `<dir>/out/audio.wav`. Run `audio.py` first, or pass `--audio` |
 | `ModuleNotFoundError: numpy` | Use `.venv/Scripts/python`, not the system Python. If `.venv` is missing, run `mf-setup` |
+| `ERR_ABORTED` on the page, or `TargetCloseError` mid-render | Too many Chrome workers for this machine's GPU. Use `--workers 2` at `--scale 0.5` and `--workers 1` at full resolution |
 | Frames differ run to run | Something in the page is not a pure function of t (Date, Math.random, CSS transitions) |

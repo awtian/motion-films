@@ -197,7 +197,7 @@ async function main() {
     for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) process.on(sig, () => { freeSlot(); process.exit(1); });
   }
   const demoDir = path.resolve(args._[0] || '.');
-  const rel = path.relative(ROOT, demoDir);
+  const rel = path.relative(ROOT, demoDir).split(path.sep).join("/");   // URL path, also on Windows
   const srv = await startServer();
   const port = srv.address().port;
   const url = `http://127.0.0.1:${port}/${rel}/${args.page || 'index.html'}${args.query ? '?' + args.query : ''}`;
